@@ -1,7 +1,10 @@
-import prompt
 import shlex
+
+import prompt
+
+from primitive_db.core import DB_FILE, create_table, drop_table
 from primitive_db.utils import load_metadata, save_metadata
-from primitive_db.core import create_table, drop_table, DB_FILE
+
 
 def show_menu():
     print("- <command> exit: выйти из программы")
