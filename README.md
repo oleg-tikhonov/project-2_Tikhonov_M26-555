@@ -40,3 +40,6 @@ users
 Таблица "users" успешно удалена.
 
 >>>Введите команду: exit
+
+Ссылка на аскинему: 
+[![asciicast](https://asciinema.org/a/r8d6qQEq7MCzYrUI.svg)](https://asciinema.org/a/r8d6qQEq7MCzYrUI)
