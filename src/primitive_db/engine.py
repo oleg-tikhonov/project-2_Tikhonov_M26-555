@@ -40,13 +40,18 @@ def welcome():
             break
 
 def print_help():
-    """Prints the help message for the current mode."""
-   
+    
     print("\n***Процесс работы с таблицей***")
     print("Функции:")
     print("<command> create_table <имя_таблицы> <столбец1:тип> .. - создать таблицу")
     print("<command> list_tables - показать список всех таблиц")
     print("<command> drop_table <имя_таблицы> - удалить таблицу")
+    print("<command> insert into <имя_таблицы> values (<значение1>, <значение2>, ...) - создать запись.") # noqa: E501
+    print("<command> select from <имя_таблицы> where <столбец> = <значение> - прочитать записи по условию.") # noqa: E501
+    print("<command> select from <имя_таблицы> - прочитать все записи.")
+    print("<command> update <имя_таблицы> set <столбец1> = <новое_значение1> where <столбец_условия> = <значение_условия> - обновить запись.") # noqa: E501
+    print("<command> delete from <имя_таблицы> where <столбец> = <значение> - удалить запись.") # noqa: E501
+    print("<command> info <имя_таблицы> - вывести информацию о таблице.")
     
     print("\nОбщие команды:")
     print("<command> exit - выход из программы")
@@ -216,6 +221,24 @@ def run():
                 print(f'Записи успешно удалены из таблицы "{table_name}".')
             else:
                 print("Ошибка синтаксиса delete.")
+        
+        elif command == "info":
+            if len(args) != 2:
+                print("Ошибка синтаксиса info.")
+                continue
+                
+            table_name = args[1]
+            
+            if table_name not in metadata:
+                print(f"Ошибка: Таблица '{table_name}' не найдена.")
+                continue
+                
+            data = load_table_data(table_name)
+            cols = [f"{k}:{v}" for k, v in metadata[table_name].items()]
+            
+            print(f"Таблица: {table_name}")
+            print(f"Столбцы: {', '.join(cols)}")
+            print(f"Количество записей: {len(data)}")       
 
         else:
             print(f"Функции {command} нет. Попробуйте снова.")
