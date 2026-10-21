@@ -2,6 +2,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+*.pyc
 
 # C extensions
 *.so
@@ -159,6 +160,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.venv/
 
 # Spyder project settings
 .spyderproject
@@ -228,3 +230,7 @@ node_modules/
 
 # Игнорировать логи приложения
 *.log
+
+db_meta.json
+data/
+*.cast

@@ -1,4 +1,8 @@
 def parse_clause(clause_str):
+    """
+    Разбирает строку условий (например, 'age=30, name="Oleg"') 
+    и возвращает словарь с приведенными типами данных.
+    """
     if not clause_str:
         return {}
 

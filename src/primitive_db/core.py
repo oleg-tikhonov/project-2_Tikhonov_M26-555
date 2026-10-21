@@ -1,16 +1,21 @@
+from primitive_db.constants import VALID_TYPES
+from primitive_db.decorators import (
+    confirm_action,
+    create_cacher,
+    handle_db_errors,
+    log_time,
+)
 from primitive_db.utils import load_table_data, save_table_data
-from primitive_db.decorators import confirm_action, create_cacher, handle_db_errors, log_time
 
-DB_FILE = "db_meta.json"
 select_cacher = create_cacher()
 
 def create_table(metadata, table_name, columns):
+    """Создает новую таблицу с указанными столбцами."""
     if table_name in metadata:
         print(f'Ошибка: Таблица "{table_name}" уже существует.')
         return metadata
 
     table_columns = {"ID": "int"}
-    valid_types = {"int", "str", "bool"}
 
     for col in columns:
         if ":" not in col:
@@ -19,7 +24,7 @@ def create_table(metadata, table_name, columns):
             
         c_name, c_type = col.split(":", 1)
         
-        if c_type not in valid_types:
+        if c_type not in VALID_TYPES:
             print(f"Некорректное значение: {c_type}. Попробуйте снова.")
             return metadata
             
@@ -34,7 +39,7 @@ def create_table(metadata, table_name, columns):
 @confirm_action("удаление таблицы")
 @handle_db_errors
 def drop_table(metadata, table_name):
-    
+    """Удаляет таблицу и ее метаданные."""
     del metadata[table_name]
     print(f'Таблица "{table_name}" успешно удалена.')
     return metadata 
@@ -42,7 +47,7 @@ def drop_table(metadata, table_name):
 @log_time
 @handle_db_errors
 def insert(metadata, table_name, values):
-    
+    """Добавляет новую запись в указанную таблицу."""
     columns = metadata[table_name]
     
     col_names = list(columns.keys())[1:]
@@ -91,6 +96,7 @@ def insert(metadata, table_name, values):
 
 @log_time
 def select(table_data, where_clause=None):
+    """Возвращает список записей, подходящих под условия."""
     if not where_clause:
         return table_data
 
@@ -111,6 +117,7 @@ def select(table_data, where_clause=None):
     return select_cacher(cache_key, get_data)
 
 def update(table_data, set_clause, where_clause):
+    """Обновляет записи в таблице по заданному условию."""
     for row in table_data:
         match = True
         for key, value in where_clause.items():
@@ -127,6 +134,7 @@ def update(table_data, set_clause, where_clause):
 
 @confirm_action("удаление записей")
 def delete(table_data, where_clause):
+    """Удаляет записи из таблицы по заданному условию."""
     result = []
     for row in table_data:
         match = True

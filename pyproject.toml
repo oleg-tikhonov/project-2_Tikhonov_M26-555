@@ -1,7 +1,7 @@
 [project]
 name = "primitive-db"
 version = "0.1.1"
-description = "Add your description here"
+description = "Локальная система управления базами данных с интерактивным интерфейсом командной строки"
 readme = "README.md"
 authors = [
     { name = "Oleg Tikhonov", email = "oleg-tikhonov123@yandex.ru" }
@@ -32,3 +32,6 @@ exclude = ["venv", ".venv", "dist", "__pycache__"]
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 ignore = []
+
+[tool.poetry.group.dev.dependencies]
+ruff = ">=0.17.1"

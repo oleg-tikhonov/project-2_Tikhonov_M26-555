@@ -3,8 +3,8 @@ import shlex
 import prompt
 from prettytable import PrettyTable
 
+from primitive_db.constants import META_FILE
 from primitive_db.core import (  # noqa: E501
-    DB_FILE,
     create_table,
     delete,
     drop_table,
@@ -22,10 +22,12 @@ from primitive_db.utils import (  # noqa: E501
 
 
 def show_menu():
+    """Выводит краткое меню доступных базовых команд."""
     print("- <command> exit: выйти из программы")
     print("- <command> help: справочная информация")
 
 def welcome():
+    """Приветственное сообщение и запуск базового меню."""
     print("Первая попытка запустить проект!")
     print("\n***")
     show_menu()
@@ -40,7 +42,7 @@ def welcome():
             break
 
 def print_help():
-    
+    """Выводит справочную информацию по доступным командам СУБД."""
     print("\n***Процесс работы с таблицей***")
     print("Функции:")
     print("<command> create_table <имя_таблицы> <столбец1:тип> .. - создать таблицу")
@@ -58,11 +60,12 @@ def print_help():
     print("<command> help - справочная информация\n")
 
 def run():
+    """Основной цикл работы приложения"""
     print("Первая попытка запустить проект!")
     print_help()
 
     while True:
-        metadata = load_metadata(DB_FILE)
+        metadata = load_metadata(META_FILE)
         
         command_line = prompt.string(">>>Введите команду: ")
         if command_line is None:
@@ -107,7 +110,7 @@ def run():
             metadata = create_table(metadata, table_name, columns)
             
             if table_name not in old_tables and table_name in metadata:
-                save_metadata(DB_FILE, metadata)
+                save_metadata(META_FILE, metadata)
                 
         elif command == "drop_table":
             if len(args) != 2:
@@ -120,7 +123,7 @@ def run():
             metadata = drop_table(metadata, table_name)
             
             if table_name in old_tables and table_name not in metadata:
-                save_metadata(DB_FILE, metadata)
+                save_metadata(META_FILE, metadata)
         
         elif command == "insert":
             parts = command_line[11:].strip().split(" values ", 1)
