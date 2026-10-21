@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+from primitive_db.engine import run
+
 
 def main():
-    print("DB project is running!")
-
+    """Точка входа в приложение. Запускает основной цикл СУБД."""
+    run()
 
 if __name__ == "__main__":
     main()
